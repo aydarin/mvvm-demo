@@ -12,10 +12,19 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var coordinator: PlanetsCoordinator?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let navigationController = UINavigationController()
+        window = UIWindow()
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+        
+        let coordinator = PlanetsCoordinator(navigationController: navigationController, api: APIClientImpl())
+        navigationController.setViewControllers(coordinator.start(), animated: true)
+        self.coordinator = coordinator
+        
         return true
     }
 

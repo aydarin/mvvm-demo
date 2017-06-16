@@ -25,6 +25,7 @@ class ListViewController: UIViewController {
         title = "Planets"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refreshPressed))
         
+        tableView.delegate = self
         reloadTable()
     }
     
@@ -38,12 +39,20 @@ class ListViewController: UIViewController {
     @objc private func refreshPressed() {
         viewModel.refresh()
     }
+    
+    // MARK: - Utils
+    
+    static func createStoryboardsInstance() -> ListViewController {
+        return UIStoryboard(name: "Main", bundle: Bundle.main)
+            .instantiateViewController(withIdentifier: "listScreen") as! ListViewController
+    }
 
 }
 
 extension ListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         viewModel.selectIndex(index: indexPath.row)
     }
     

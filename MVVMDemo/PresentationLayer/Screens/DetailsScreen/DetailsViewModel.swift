@@ -16,7 +16,7 @@ protocol DetailsViewModel {
 }
 
 protocol DetailsCoordinator: class {
-    func detailsVoteFailed(_ viewModel: DetailsViewModel)
+    func detailsVoteFailed(_ viewModel: DetailsViewModel, retryBlock: @escaping (() -> ()))
 }
 
 protocol DetailsUIDelegate: class {
@@ -29,37 +29,40 @@ protocol DetailsUIDelegate: class {
 class DetailsViewModelImpl: DetailsViewModel {
     
     weak var uiDelegate: DetailsUIDelegate?
-    weak var coordinator: DetailsCoordinator?
+    private weak var coordinator: DetailsCoordinator?
     
     var title: String {
-        return model.planet.name
+        return provider.planet.name
     }
     
     var detailedDescription: String {
-        return model.planet.description
+        return provider.planet.description
     }
     
-    private let model: DetailsModel
+    private let provider: DetailsProvider
     
-    init(with model: DetailsModel) {
-        self.model = model
+    init(provider: DetailsProvider, coordinator: DetailsCoordinator) {
+        self.provider = provider
+        self.coordinator = coordinator
     }
     
     private func voteFailed() {
-        coordinator?.detailsVoteFailed(self)
+        coordinator?.detailsVoteFailed(self) { [weak self] in
+            self?.votePressed()
+        }
     }
     
     //MARK: - Actions
     
     func votePressed() {
         uiDelegate?.didStartLoading()
-        model.vote { [weak self] success in
+        provider.vote { [weak self] success in
             self?.uiDelegate?.didFinishLoading()
             
             if success {
-                self?.voteFailed()
-            } else {
                 self?.uiDelegate?.voteSucceded()
+            } else {
+                self?.voteFailed()
             }
         }
     }

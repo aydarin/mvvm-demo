@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FBE-Zi-ivW">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="Wc2-2Q-lRm">
             <objects>
-                <viewController id="kgH-Mn-WkL" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginScreen" id="kgH-Mn-WkL" customClass="LoginViewController" customModule="MVVMDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AZl-Fe-zaQ"/>
                         <viewControllerLayoutGuide type="bottom" id="WaT-jV-Lwz"/>
@@ -39,30 +39,74 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="32L-4t-Bxh">
                                         <rect key="frame" x="0.0" y="100" width="335" height="30"/>
                                         <state key="normal" title="Login"/>
+                                        <connections>
+                                            <action selector="loginPressed:" destination="kgH-Mn-WkL" eventType="touchUpInside" id="6zV-9M-sFa"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2E-dJ-jki">
                                         <rect key="frame" x="0.0" y="150" width="335" height="30"/>
                                         <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelPressed:" destination="kgH-Mn-WkL" eventType="touchUpInside" id="I4I-ZX-EvA"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZYe-m5-6RU">
+                                <rect key="frame" x="177.5" y="431" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ZYe-m5-6RU" firstAttribute="centerX" secondItem="Sfg-EE-U7B" secondAttribute="centerX" id="69m-Yb-kxy"/>
+                            <constraint firstItem="ZYe-m5-6RU" firstAttribute="top" secondItem="fbX-SQ-N9a" secondAttribute="bottom" constant="8" id="GjS-JS-g7w"/>
                             <constraint firstItem="fbX-SQ-N9a" firstAttribute="leading" secondItem="Sfg-EE-U7B" secondAttribute="leading" constant="20" id="HTW-hE-Wk9"/>
                             <constraint firstItem="fbX-SQ-N9a" firstAttribute="centerY" secondItem="Sfg-EE-U7B" secondAttribute="centerY" id="bGa-1N-KKS"/>
                             <constraint firstAttribute="trailing" secondItem="fbX-SQ-N9a" secondAttribute="trailing" constant="20" id="o6N-XJ-ZxL"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="ZYe-m5-6RU" id="Ddc-5m-1yg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NmO-Hb-ERx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="847" y="842"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Xn3-kt-MQh">
+            <objects>
+                <viewController id="FBE-Zi-ivW" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lCY-T9-47d"/>
+                        <viewControllerLayoutGuide type="bottom" id="w8R-7E-g9Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jr2-op-fNh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spt-bi-lBT">
+                                <rect key="frame" x="141" y="313" width="92.5" height="41"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="34"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Spt-bi-lBT" firstAttribute="centerX" secondItem="jr2-op-fNh" secondAttribute="centerX" id="LS5-cT-byG"/>
+                            <constraint firstItem="Spt-bi-lBT" firstAttribute="centerY" secondItem="jr2-op-fNh" secondAttribute="centerY" id="b13-la-gPy"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Pf-XB-bX6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="46" y="133"/>
+        </scene>
         <!--List View Controller-->
         <scene sceneID="Lz7-Eo-YoN">
             <objects>
-                <viewController id="ifm-IZ-MxV" customClass="ListViewController" customModule="MVVMDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="listScreen" id="ifm-IZ-MxV" customClass="ListViewController" customModule="MVVMDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UiS-Ao-lyI"/>
                         <viewControllerLayoutGuide type="bottom" id="Rwp-1c-WNd"/>
@@ -71,7 +115,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m5z-GG-ej7">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m5z-GG-ej7">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -79,7 +123,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u6z-hC-51m" id="SiG-LF-tlU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -87,11 +131,11 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="niC-zv-ta2" id="Eml-Dd-Zvy">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="111.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty data. Pull to refresh :-)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HzL-WW-95n">
-                                                    <rect key="frame" x="75.5" y="45" width="225" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty data. Try to refresh :-)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HzL-WW-95n">
+                                                    <rect key="frame" x="76.5" y="45" width="222" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -131,7 +175,7 @@
         <!--Details View Controller-->
         <scene sceneID="P6G-ok-fCk">
             <objects>
-                <viewController id="u6Q-eD-7k8" customClass="DetailsViewController" customModule="MVVMDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailsScreen" id="u6Q-eD-7k8" customClass="DetailsViewController" customModule="MVVMDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="81r-O9-uzf"/>
                         <viewControllerLayoutGuide type="bottom" id="lii-gj-pOp"/>

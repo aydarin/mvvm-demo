@@ -34,6 +34,13 @@ class DetailsViewController: UIViewController {
     @objc private func votePressed() {
         viewModel.votePressed()
     }
+    
+    // MARK: - Utils
+    
+    static func createStoryboardsInstance() -> DetailsViewController {
+        return UIStoryboard(name: "Main", bundle: Bundle.main)
+            .instantiateViewController(withIdentifier: "detailsScreen") as! DetailsViewController
+    }
 
 }
 

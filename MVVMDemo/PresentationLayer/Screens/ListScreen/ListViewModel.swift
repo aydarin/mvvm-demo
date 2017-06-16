@@ -23,13 +23,13 @@ protocol ListUIDelegate: class {
 }
 
 protocol ListCoordinator: class {
-    func list(_ viewModel: ListViewModel, selectedPlanet planet: Planet)
+    func list(_ viewModel: ListViewModel, didSelect planet: Planet)
 }
 
 class ListViewModelImpl: ListViewModel {
     
     weak var uiDelegate: ListUIDelegate?
-    weak var coordinator: ListCoordinator?
+    private weak var coordinator: ListCoordinator?
     
     private(set) var dataSource: ListDataSource = EmptyListDataSourceImpl() {
         didSet {
@@ -37,22 +37,23 @@ class ListViewModelImpl: ListViewModel {
         }
     }
     
-    private let model: ListModel
+    private let provider: ListProvider
     
-    init(model: ListModel) {
-        self.model = model
+    init(provider: ListProvider, coordinator: ListCoordinator) {
+        self.provider = provider
+        self.coordinator = coordinator
     }
     
     // MARK: - Actions
     
     func selectIndex(index: Int) {
-        coordinator?.list(self, selectedPlanet: dataSource.planets[index])
+        coordinator?.list(self, didSelect: dataSource.planets[index])
     }
     
     func refresh() {
         uiDelegate?.didStartLoading()
         
-        model.loadPlanets { [weak self] planets in
+        provider.loadPlanets { [weak self] planets in
             self?.uiDelegate?.didFinishLoading()
             
             if planets.count > 0 {
