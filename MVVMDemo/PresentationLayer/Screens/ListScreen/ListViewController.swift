@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class ListViewController: UIViewController {
     
-    var viewModel: ListViewModel! {
-        didSet {
-            viewModel.uiDelegate = self
-        }
-    }
+    var viewModel: ListViewModel!
+    private let disposeBag = DisposeBag()
     
     @IBOutlet fileprivate weak var tableView: UITableView!
     @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
@@ -26,12 +25,13 @@ class ListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refreshPressed))
         
         tableView.delegate = self
-        reloadTable()
-    }
-    
-    fileprivate func reloadTable() {
-        tableView.dataSource = viewModel.dataSource
-        tableView.reloadData()
+        
+        viewModel.dataSourceObservable.subscribe(onNext: { [weak self] dataSource in
+            self?.tableView.dataSource = dataSource
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+        
+        viewModel.isLoading.bind(to: activityIndicator.rx.isAnimating).disposed(by: disposeBag)
     }
     
     // MARK: - Actions
@@ -54,22 +54,6 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.selectIndex(index: indexPath.row)
-    }
-    
-}
-
-extension ListViewController: ListUIDelegate {
-    
-    func didUpdateDataSource() {
-        reloadTable()
-    }
-    
-    func didStartLoading() {
-        activityIndicator.startAnimating()
-    }
-    
-    func didFinishLoading() {
-        activityIndicator.stopAnimating()
     }
     
 }

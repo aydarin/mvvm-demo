@@ -31,7 +31,7 @@ extension PlanetsCoordinator: ListCoordinator {
     fileprivate func configuredListViewController() -> ListViewController {
         let provider = ListProviderImpl(api: api)
         
-        let vm = ListViewModelImpl(provider: provider, coordinator: self)
+        let vm = ListViewModel(provider: provider, coordinator: self)
         
         let vc = ListViewController.createStoryboardsInstance()
         vc.viewModel = vm

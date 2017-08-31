@@ -6,62 +6,50 @@
 //  Copyright © 2017 Aydar Mukhametzyanov. All rights reserved.
 //
 
-protocol ListViewModel {
-    var dataSource: ListDataSource { get }
-    
-    var uiDelegate: ListUIDelegate? { get set }
-    
-    func refresh()
-    func selectIndex(index: Int)
-}
+import RxSwift
 
-protocol ListUIDelegate: class {
-    func didUpdateDataSource()
-    
-    func didStartLoading()
-    func didFinishLoading()
-}
 
 protocol ListCoordinator: class {
     func list(_ viewModel: ListViewModel, didSelect planet: Planet)
 }
 
-class ListViewModelImpl: ListViewModel {
+class ListViewModel {
     
-    weak var uiDelegate: ListUIDelegate?
     private weak var coordinator: ListCoordinator?
-    
-    private(set) var dataSource: ListDataSource = EmptyListDataSourceImpl() {
-        didSet {
-            uiDelegate?.didUpdateDataSource()
-        }
-    }
-    
     private let provider: ListProvider
+    private let disposeBag = DisposeBag()
+    
+    let dataSourceObservable: Observable<ListDataSource>
+    private let dataSourceVariable = Variable<ListDataSource>(EmptyListDataSourceImpl())
+    
+    let isLoading: Observable<Bool>
+    private let isLoadingVariable = Variable<Bool>(false)
+    
     
     init(provider: ListProvider, coordinator: ListCoordinator) {
         self.provider = provider
         self.coordinator = coordinator
+        
+        dataSourceObservable = dataSourceVariable.asObservable()
+        isLoading = isLoadingVariable.asObservable()
     }
     
     // MARK: - Actions
     
     func selectIndex(index: Int) {
-        coordinator?.list(self, didSelect: dataSource.planets[index])
+        coordinator?.list(self, didSelect: dataSourceVariable.value.planets[index])
     }
     
     func refresh() {
-        uiDelegate?.didStartLoading()
+        isLoadingVariable.value = true
         
-        provider.loadPlanets { [weak self] planets in
-            self?.uiDelegate?.didFinishLoading()
-            
-            if planets.count > 0 {
-                self?.dataSource = ListDataSourceImpl(planets: planets)
-            } else {
-                self?.dataSource = EmptyListDataSourceImpl()
-            }
-        }
+        provider.fetchPlanets().map { planets -> ListDataSource in
+            return planets.count > 0
+                ? ListDataSourceImpl(planets: planets)
+                : EmptyListDataSourceImpl()
+        }.do(onCompleted: { [weak self] in
+            self?.isLoadingVariable.value = false
+        }).bind(to: dataSourceVariable).disposed(by: disposeBag)
     }
     
 }

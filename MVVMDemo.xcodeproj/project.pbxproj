@@ -243,10 +243,10 @@
 		9CC6D71B1EEF02E800848628 /* ListScreen */ = {
 			isa = PBXGroup;
 			children = (
-				9CC6D7341EF0539000848628 /* ListViewController.swift */,
-				9CC6D7361EF053AD00848628 /* ListViewModel.swift */,
-				9CC6D7381EF053BC00848628 /* ListProvider.swift */,
 				9CC6D73A1EF0571200848628 /* ListDataSource.swift */,
+				9CC6D7381EF053BC00848628 /* ListProvider.swift */,
+				9CC6D7361EF053AD00848628 /* ListViewModel.swift */,
+				9CC6D7341EF0539000848628 /* ListViewController.swift */,
 			);
 			path = ListScreen;
 			sourceTree = "<group>";
