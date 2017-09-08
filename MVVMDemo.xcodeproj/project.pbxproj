@@ -203,9 +203,9 @@
 		9CC6D71A1EEF02E800848628 /* DetailsScreen */ = {
 			isa = PBXGroup;
 			children = (
-				9CC6D71D1EEF031400848628 /* DetailsViewController.swift */,
-				9CC6D71F1EEF033600848628 /* DetailsViewModel.swift */,
 				9CC6D7211EEF03F600848628 /* DetailsProvider.swift */,
+				9CC6D71F1EEF033600848628 /* DetailsViewModel.swift */,
+				9CC6D71D1EEF031400848628 /* DetailsViewController.swift */,
 			);
 			path = DetailsScreen;
 			sourceTree = "<group>";
@@ -224,9 +224,9 @@
 		9CC6D71C1EEF02E800848628 /* LoginScreen */ = {
 			isa = PBXGroup;
 			children = (
-				9C90B04A1EF3B8A2004659B6 /* LoginViewController.swift */,
-				9C90B04C1EF3B8C4004659B6 /* LoginViewModel.swift */,
 				9C90B04E1EF3B8D2004659B6 /* LoginProvider.swift */,
+				9C90B04C1EF3B8C4004659B6 /* LoginViewModel.swift */,
+				9C90B04A1EF3B8A2004659B6 /* LoginViewController.swift */,
 			);
 			path = LoginScreen;
 			sourceTree = "<group>";
