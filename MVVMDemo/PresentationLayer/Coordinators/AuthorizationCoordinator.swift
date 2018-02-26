@@ -27,7 +27,7 @@ class AuthorizationCoordinator {
         return [configuredLoginViewController()]
     }
     
-    func configuredLoginViewController() -> LoginViewController {
+    private func configuredLoginViewController() -> LoginViewController {
         let provider = LoginProviderImpl(api: api)
         
         let vc = LoginViewController.createStoryboardsInstance()
