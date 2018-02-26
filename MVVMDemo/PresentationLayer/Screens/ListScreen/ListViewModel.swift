@@ -9,8 +9,6 @@
 protocol ListViewModel {
     var dataSource: ListDataSource { get }
     
-    var uiDelegate: ListUIDelegate? { get set }
-    
     func refresh()
     func selectIndex(index: Int)
 }
@@ -22,14 +20,11 @@ protocol ListUIDelegate: class {
     func didFinishLoading()
 }
 
-protocol ListCoordinator: class {
-    func list(_ viewModel: ListViewModel, didSelect planet: Planet)
-}
-
 class ListViewModelImpl: ListViewModel {
     
-    weak var uiDelegate: ListUIDelegate?
-    private weak var coordinator: ListCoordinator?
+    private let provider: ListProvider
+    private let onSelect: (Planet) -> ()
+    private weak var uiDelegate: ListUIDelegate?
     
     private(set) var dataSource: ListDataSource = EmptyListDataSourceImpl() {
         didSet {
@@ -37,17 +32,16 @@ class ListViewModelImpl: ListViewModel {
         }
     }
     
-    private let provider: ListProvider
-    
-    init(provider: ListProvider, coordinator: ListCoordinator) {
+    init(provider: ListProvider, uiDelegate: ListUIDelegate, onSelect: @escaping (Planet) -> ()) {
         self.provider = provider
-        self.coordinator = coordinator
+        self.uiDelegate = uiDelegate
+        self.onSelect = onSelect
     }
     
     // MARK: - Actions
     
     func selectIndex(index: Int) {
-        coordinator?.list(self, didSelect: dataSource.planets[index])
+        onSelect(dataSource.planets[index])
     }
     
     func refresh() {

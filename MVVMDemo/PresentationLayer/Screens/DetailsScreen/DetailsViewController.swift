@@ -10,11 +10,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    var viewModel: DetailsViewModel! {
-        didSet {
-            viewModel.uiDelegate = self
-        }
-    }
+    var viewModel: DetailsViewModel!
     
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!

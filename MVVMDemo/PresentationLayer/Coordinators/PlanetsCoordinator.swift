@@ -10,10 +10,8 @@ import UIKit
 
 class PlanetsCoordinator {
     
-    let navigationController: UINavigationController
-    let api: APIClient
-    
-    fileprivate var childCoordinator: AuthorizationCoordinator?
+    private weak var navigationController: UINavigationController?
+    private let api: APIClient
     
     init(navigationController: UINavigationController, api: APIClient) {
         self.navigationController = navigationController
@@ -23,67 +21,48 @@ class PlanetsCoordinator {
     func start() -> [UIViewController] {
         return [configuredListViewController()]
     }
-
-}
-
-extension PlanetsCoordinator: ListCoordinator {
     
-    fileprivate func configuredListViewController() -> ListViewController {
-        let provider = ListProviderImpl(api: api)
-        
-        let vm = ListViewModelImpl(provider: provider, coordinator: self)
-        
+    private func configuredListViewController() -> ListViewController {
         let vc = ListViewController.createStoryboardsInstance()
+        let provider = ListProviderImpl(api: api)
+        let vm = ListViewModelImpl(provider: provider, uiDelegate: vc, onSelect: { planet in
+            let vc = self.configuredDetailsViewController(with: planet)
+            self.navigationController?.pushViewController(vc, animated: true)
+        })
+        
         vc.viewModel = vm
         
         return vc
     }
     
-    func list(_ viewModel: ListViewModel, didSelect planet: Planet) {
-        navigationController.pushViewController(configuredDetailsViewController(with: planet), animated: true)
-    }
-    
-}
-
-extension PlanetsCoordinator: DetailsCoordinator {
-    
-    fileprivate func configuredDetailsViewController(with planet: Planet) -> DetailsViewController {
-        let provider = DetailsProviderImpl(with: planet, api: api)
-        
-        let vm = DetailsViewModelImpl(provider: provider, coordinator: self)
-        
+    private func configuredDetailsViewController(with planet: Planet) -> DetailsViewController {
         let vc = DetailsViewController.createStoryboardsInstance()
+        let provider = DetailsProviderImpl(with: planet, api: api)
+        let vm = DetailsViewModelImpl(provider: provider,
+                                      uiDelegate: vc,
+                                      onFailed: { retryCommand in
+                                        self.startAuthorizationCoordinator(completion: { success in
+                                            if success {
+                                                retryCommand.run()
+                                            }
+                                        })
+        })
+        
         vc.viewModel = vm
         
         return vc
     }
     
-    func detailsVoteFailed(_ viewModel: DetailsViewModel, retryBlock: @escaping (() -> ())) {
-        startAuthorizationCoordinator { success in
-            if success {
-                retryBlock()
-            }
-        }
-    }
-    
-}
-
-extension PlanetsCoordinator {
-    
-    func startAuthorizationCoordinator(completion: @escaping ((Bool) -> ())) {
+    private func startAuthorizationCoordinator(completion: @escaping ((Bool) -> ())) {
         let authorizationNC = UINavigationController()
-        let coordinator = AuthorizationCoordinator(navigationController: authorizationNC, api: api) { [weak self] success in
-            self?.childCoordinator = nil
-            
-            self?.navigationController.dismiss(animated: true, completion: {
+        let coordinator = AuthorizationCoordinator(navigationController: authorizationNC, api: api) { success in
+            self.navigationController?.dismiss(animated: true, completion: {
                 completion(success)
             })
         }
         
         authorizationNC.setViewControllers(coordinator.start(), animated: false)
-        
-        childCoordinator = coordinator
-        navigationController.present(authorizationNC, animated: true, completion: nil)
+        navigationController?.present(authorizationNC, animated: true, completion: nil)
     }
     
 }

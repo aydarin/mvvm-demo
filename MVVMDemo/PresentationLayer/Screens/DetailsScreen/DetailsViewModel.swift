@@ -10,13 +10,7 @@ protocol DetailsViewModel {
     var title: String { get }
     var detailedDescription: String { get }
     
-    var uiDelegate: DetailsUIDelegate? { get set }
-    
     func votePressed()
-}
-
-protocol DetailsCoordinator: class {
-    func detailsVoteFailed(_ viewModel: DetailsViewModel, retryBlock: @escaping (() -> ()))
 }
 
 protocol DetailsUIDelegate: class {
@@ -26,10 +20,15 @@ protocol DetailsUIDelegate: class {
     func didFinishLoading()
 }
 
+struct RetryCommand {
+    let run: () -> ()
+}
+
 class DetailsViewModelImpl: DetailsViewModel {
     
-    weak var uiDelegate: DetailsUIDelegate?
-    private weak var coordinator: DetailsCoordinator?
+    private let provider: DetailsProvider
+    private weak var uiDelegate: DetailsUIDelegate?
+    private let onFailed: (RetryCommand) -> ()
     
     var title: String {
         return provider.planet.name
@@ -39,17 +38,18 @@ class DetailsViewModelImpl: DetailsViewModel {
         return provider.planet.description
     }
     
-    private let provider: DetailsProvider
-    
-    init(provider: DetailsProvider, coordinator: DetailsCoordinator) {
+    init(provider: DetailsProvider,
+         uiDelegate: DetailsUIDelegate,
+         onFailed: @escaping (RetryCommand) -> ()) {
         self.provider = provider
-        self.coordinator = coordinator
+        self.uiDelegate = uiDelegate
+        self.onFailed = onFailed
     }
     
     private func voteFailed() {
-        coordinator?.detailsVoteFailed(self) { [weak self] in
+        onFailed(RetryCommand(run: { [weak self] in
             self?.votePressed()
-        }
+        }))
     }
     
     //MARK: - Actions

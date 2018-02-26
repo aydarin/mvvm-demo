@@ -10,11 +10,7 @@ import UIKit
 
 class ListViewController: UIViewController {
     
-    var viewModel: ListViewModel! {
-        didSet {
-            viewModel.uiDelegate = self
-        }
-    }
+    var viewModel: ListViewModel!
     
     @IBOutlet fileprivate weak var tableView: UITableView!
     @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
