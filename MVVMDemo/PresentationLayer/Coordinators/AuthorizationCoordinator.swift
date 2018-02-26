@@ -10,44 +10,35 @@ import UIKit
 
 class AuthorizationCoordinator {
     
-    fileprivate let navigationController: UINavigationController
-    fileprivate let api: APIClient
-    fileprivate let completion: ((Bool) -> ())
+    private weak var navigationController: UINavigationController?
+    private let api: APIClient
+    private let onFinish: ((Bool) -> ())
     
     init(navigationController: UINavigationController,
          api: APIClient,
-         completion: @escaping ((Bool) -> ())) {
+         onFinish: @escaping ((Bool) -> ())) {
         
         self.navigationController = navigationController
         self.api = api
-        self.completion = completion
+        self.onFinish = onFinish
     }
     
     func start() -> [UIViewController] {
         return [configuredLoginViewController()]
     }
-
-}
-
-extension AuthorizationCoordinator: LoginCoordinator {
     
     func configuredLoginViewController() -> LoginViewController {
         let provider = LoginProviderImpl(api: api)
         
-        let vm = LoginViewModelImpl(provider: provider, coordinator: self)
-        
         let vc = LoginViewController.createStoryboardsInstance()
+        let vm = LoginViewModelImpl(provider: provider,
+                                    uiDelegate: vc,
+                                    onFinished: { self.onFinish(true) },
+                                    onCancelled: { self.onFinish(false) })
+        
         vc.viewModel = vm
         
         return vc
-    }
-    
-    func loginFinished() {
-        completion(true)
-    }
-    
-    func loginCancelled() {
-        completion(false)
     }
     
 }

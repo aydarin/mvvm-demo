@@ -10,11 +10,7 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    var viewModel: LoginViewModel! {
-        didSet {
-            viewModel.uiDelegate = self
-        }
-    }
+    var viewModel: LoginViewModel!
     
     @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
     

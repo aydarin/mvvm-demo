@@ -8,32 +8,32 @@
 
 import UIKit
 
-protocol LoginCoordinator: class {
-    func loginFinished()
-    func loginCancelled()
-}
-
 protocol LoginUIDelegate: class {
     func didStartLoading()
     func didFinishLoading()
 }
 
 protocol LoginViewModel {
-    var uiDelegate: LoginUIDelegate? { get set }
-    
     func loginPressed()
     func cancelPressed()
 }
 
 class LoginViewModelImpl: LoginViewModel {
     
-    weak var uiDelegate: LoginUIDelegate?
-    private weak var coordinator: LoginCoordinator?
+    private weak var uiDelegate: LoginUIDelegate?
     private let provider: LoginProvider
     
-    init(provider: LoginProvider, coordinator: LoginCoordinator) {
+    private let onFinished: () -> ()
+    private let onCancelled: () -> ()
+    
+    init(provider: LoginProvider,
+         uiDelegate: LoginUIDelegate,
+         onFinished: @escaping () -> (),
+         onCancelled: @escaping () -> ()) {
         self.provider = provider
-        self.coordinator = coordinator
+        self.uiDelegate = uiDelegate
+        self.onFinished = onFinished
+        self.onCancelled = onCancelled
     }
     
     // MARK: Actions
@@ -43,12 +43,12 @@ class LoginViewModelImpl: LoginViewModel {
         
         provider.login { [weak self] in
             self?.uiDelegate?.didFinishLoading()
-            self?.coordinator?.loginFinished()
+            self?.onFinished()
         }
     }
     
     func cancelPressed() {
-        coordinator?.loginCancelled()
+        onCancelled()
     }
 
 }
