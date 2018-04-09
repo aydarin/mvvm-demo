@@ -48,6 +48,12 @@ extension DetailsViewController: DetailsUIDelegate {
         present(alertVC, animated: true, completion: nil)
     }
     
+    func voteFailed() {
+        let alertVC = UIAlertController(title: "Voting failed", message: "Authentication error", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(alertVC, animated: true, completion: nil)
+    }
+    
     func didStartLoading() {
         activityIndicator.startAnimating()
     }

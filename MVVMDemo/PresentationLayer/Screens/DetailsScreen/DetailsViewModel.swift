@@ -8,6 +8,7 @@
 
 protocol DetailsUIDelegate: class {
     func voteSucceded()
+    func voteFailed()
     
     func didStartLoading()
     func didFinishLoading()
@@ -21,7 +22,6 @@ class DetailsViewModel {
     
     private let dataProvider: DetailsDataProvider
     private weak var uiDelegate: DetailsUIDelegate?
-    private let onFailed: (RetryCommand) -> ()
     
     var title: String {
         return dataProvider.planet.name
@@ -32,17 +32,13 @@ class DetailsViewModel {
     }
     
     init(dataProvider: DetailsDataProvider,
-         uiDelegate: DetailsUIDelegate,
-         onFailed: @escaping (RetryCommand) -> ()) {
+         uiDelegate: DetailsUIDelegate) {
         self.dataProvider = dataProvider
         self.uiDelegate = uiDelegate
-        self.onFailed = onFailed
     }
     
     private func voteFailed() {
-        onFailed(RetryCommand(run: { [weak self] in
-            self?.votePressed()
-        }))
+        uiDelegate?.voteFailed()
     }
     
     //MARK: - Actions

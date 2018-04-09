@@ -39,14 +39,7 @@ class PlanetsCoordinator {
         let vc = DetailsViewController.createStoryboardsInstance()
         let dataProvider = DetailsDataProvider(with: planet, api: api)
         let vm = DetailsViewModel(dataProvider: dataProvider,
-                                  uiDelegate: vc,
-                                  onFailed: { retryCommand in
-                                    self.startAuthorizationCoordinator(completion: { success in
-                                        if success {
-                                            retryCommand.run()
-                                        }
-                                    })
-        })
+                                  uiDelegate: vc)
         
         vc.viewModel = vm
         
