@@ -28,13 +28,13 @@ class AuthorizationCoordinator {
     }
     
     private func configuredLoginViewController() -> LoginViewController {
-        let provider = LoginProviderImpl(api: api)
+        let dataProvider = LoginDataProvider(api: api)
         
         let vc = LoginViewController.createStoryboardsInstance()
-        let vm = LoginViewModelImpl(provider: provider,
-                                    uiDelegate: vc,
-                                    onFinished: { self.onFinish(true) },
-                                    onCancelled: { self.onFinish(false) })
+        let vm = LoginViewModel(dataProvider: dataProvider,
+                                uiDelegate: vc,
+                                onFinished: { self.onFinish(true) },
+                                onCancelled: { self.onFinish(false) })
         
         vc.viewModel = vm
         

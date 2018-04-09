@@ -24,8 +24,8 @@ class PlanetsCoordinator {
     
     private func configuredListViewController() -> ListViewController {
         let vc = ListViewController.createStoryboardsInstance()
-        let provider = ListProviderImpl(api: api)
-        let vm = ListViewModelImpl(provider: provider, uiDelegate: vc, onSelect: { planet in
+        let dataProvider = ListDataProvider(api: api)
+        let vm = ListViewModel(dataProvider: dataProvider, uiDelegate: vc, onSelect: { planet in
             let vc = self.configuredDetailsViewController(with: planet)
             self.navigationController?.pushViewController(vc, animated: true)
         })
@@ -37,15 +37,15 @@ class PlanetsCoordinator {
     
     private func configuredDetailsViewController(with planet: Planet) -> DetailsViewController {
         let vc = DetailsViewController.createStoryboardsInstance()
-        let provider = DetailsProviderImpl(with: planet, api: api)
-        let vm = DetailsViewModelImpl(provider: provider,
-                                      uiDelegate: vc,
-                                      onFailed: { retryCommand in
-                                        self.startAuthorizationCoordinator(completion: { success in
-                                            if success {
-                                                retryCommand.run()
-                                            }
-                                        })
+        let dataProvider = DetailsDataProvider(with: planet, api: api)
+        let vm = DetailsViewModel(dataProvider: dataProvider,
+                                  uiDelegate: vc,
+                                  onFailed: { retryCommand in
+                                    self.startAuthorizationCoordinator(completion: { success in
+                                        if success {
+                                            retryCommand.run()
+                                        }
+                                    })
         })
         
         vc.viewModel = vm

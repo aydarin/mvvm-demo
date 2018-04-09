@@ -6,13 +6,6 @@
 //  Copyright © 2017 Aydar Mukhametzyanov. All rights reserved.
 //
 
-protocol DetailsViewModel {
-    var title: String { get }
-    var detailedDescription: String { get }
-    
-    func votePressed()
-}
-
 protocol DetailsUIDelegate: class {
     func voteSucceded()
     
@@ -24,24 +17,24 @@ struct RetryCommand {
     let run: () -> ()
 }
 
-class DetailsViewModelImpl: DetailsViewModel {
+class DetailsViewModel {
     
-    private let provider: DetailsProvider
+    private let dataProvider: DetailsDataProvider
     private weak var uiDelegate: DetailsUIDelegate?
     private let onFailed: (RetryCommand) -> ()
     
     var title: String {
-        return provider.planet.name
+        return dataProvider.planet.name
     }
     
     var detailedDescription: String {
-        return provider.planet.description
+        return dataProvider.planet.description
     }
     
-    init(provider: DetailsProvider,
+    init(dataProvider: DetailsDataProvider,
          uiDelegate: DetailsUIDelegate,
          onFailed: @escaping (RetryCommand) -> ()) {
-        self.provider = provider
+        self.dataProvider = dataProvider
         self.uiDelegate = uiDelegate
         self.onFailed = onFailed
     }
@@ -56,7 +49,7 @@ class DetailsViewModelImpl: DetailsViewModel {
     
     func votePressed() {
         uiDelegate?.didStartLoading()
-        provider.vote { [weak self] success in
+        dataProvider.vote { [weak self] success in
             self?.uiDelegate?.didFinishLoading()
             
             if success {

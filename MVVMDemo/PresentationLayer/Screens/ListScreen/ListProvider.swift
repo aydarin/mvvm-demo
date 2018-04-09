@@ -1,16 +1,12 @@
 //
-//  ListProvider.swift
+//  ListDataProvider.swift
 //  MVVMDemo
 //
 //  Created by Aydar Mukhametzyanov on 6/13/17.
 //  Copyright © 2017 Aydar Mukhametzyanov. All rights reserved.
 //
 
-protocol ListProvider {
-    func loadPlanets(completion: @escaping ([Planet])->())
-}
-
-class ListProviderImpl: ListProvider {
+class ListDataProvider {
     
     let api: APIClient
     

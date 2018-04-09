@@ -1,5 +1,5 @@
 //
-//  LoginProvider.swift
+//  LoginDataProvider.swift
 //  MVVMDemo
 //
 //  Created by Aydar Mukhametzyanov on 6/16/17.
@@ -8,11 +8,7 @@
 
 import UIKit
 
-protocol LoginProvider {
-    func login(completion: @escaping (() -> ()))
-}
-
-class LoginProviderImpl: LoginProvider {
+class LoginDataProvider {
     
     let api: APIClient
     

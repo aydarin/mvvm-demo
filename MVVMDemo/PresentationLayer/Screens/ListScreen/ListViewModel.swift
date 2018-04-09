@@ -6,13 +6,6 @@
 //  Copyright © 2017 Aydar Mukhametzyanov. All rights reserved.
 //
 
-protocol ListViewModel {
-    var dataSource: ListDataSource { get }
-    
-    func refresh()
-    func selectIndex(index: Int)
-}
-
 protocol ListUIDelegate: class {
     func didUpdateDataSource()
     
@@ -20,9 +13,9 @@ protocol ListUIDelegate: class {
     func didFinishLoading()
 }
 
-class ListViewModelImpl: ListViewModel {
+class ListViewModel {
     
-    private let provider: ListProvider
+    private let dataProvider: ListDataProvider
     private let onSelect: (Planet) -> ()
     private weak var uiDelegate: ListUIDelegate?
     
@@ -32,8 +25,8 @@ class ListViewModelImpl: ListViewModel {
         }
     }
     
-    init(provider: ListProvider, uiDelegate: ListUIDelegate, onSelect: @escaping (Planet) -> ()) {
-        self.provider = provider
+    init(dataProvider: ListDataProvider, uiDelegate: ListUIDelegate, onSelect: @escaping (Planet) -> ()) {
+        self.dataProvider = dataProvider
         self.uiDelegate = uiDelegate
         self.onSelect = onSelect
     }
@@ -47,7 +40,7 @@ class ListViewModelImpl: ListViewModel {
     func refresh() {
         uiDelegate?.didStartLoading()
         
-        provider.loadPlanets { [weak self] planets in
+        dataProvider.loadPlanets { [weak self] planets in
             self?.uiDelegate?.didFinishLoading()
             
             if planets.count > 0 {
