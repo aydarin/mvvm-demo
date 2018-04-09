@@ -34,6 +34,10 @@ class ListViewModel {
     // MARK: - Actions
     
     func selectIndex(index: Int) {
+        guard index < dataSource.planets.count else {
+            return
+        }
+        
         onSelect(dataSource.planets[index])
     }
     
