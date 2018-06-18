@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Name</key>
+		<string>Mercury</string>
+		<key>Description</key>
+		<string>The smallest and innermost planet in the Solar System. Its orbital period around the Sun of 88 days is the shortest of all the planets in the Solar System. It is named after the Roman deity Mercury, the messenger to the gods.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Venus</string>
+		<key>Description</key>
+		<string>Venus is the second planet from the Sun, orbiting it every 224.7 Earth days. It has the longest rotation period of any planet in the Solar System and rotates in the opposite direction to most other planets. It does not have any natural satellites.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Earth</string>
+		<key>Description</key>
+		<string>Third planet from the Sun and the only object in the Universe known to harbor life. It is the densest planet in the Solar System and the largest of the four terrestrial planets.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Mars</string>
+		<key>Description</key>
+		<string>The fourth planet from the Sun and the second-smallest planet in the Solar System, after Mercury. Named after the Roman god of war, it is often referred to as the \&quot;Red Planet\&quot; because the iron oxide prevalent on its surface gives it a reddish appearance.[15] Mars is a terrestrial planet with a thin atmosphere, having surface features reminiscent both of the impact craters of the Moon and the valleys, deserts, and polar ice caps of Earth.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Jupiter</string>
+		<key>Description</key>
+		<string>Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a giant planet with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Saturn</string>
+		<key>Description</key>
+		<string>Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius about nine times that of Earth. It has only one-eighth the average density of Earth, but with its larger volume Saturn is over 95 times more massive. Saturn is named after the Roman god of agriculture; its astronomical symbol (♄) represents the god&apos;s sickle.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Uranus</string>
+		<key>Description</key>
+		<string>Uranus is the seventh planet from the Sun. It has the third-largest planetary radius and fourth-largest planetary mass in the Solar System.</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Neptune</string>
+		<key>Description</key>
+		<string>Neptune is the eighth and farthest known planet from the Sun in the Solar System. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet.</string>
+	</dict>
+</array>
+</plist>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14031"/>
+    </dependencies>
+    <scenes>
+        <!--List Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller hidesWhenLoading="NO" id="AgC-eL-Hgc" customClass="ListInterfaceController" customModule="Watch_Extension">
+                    <items>
+                        <table alignment="left" id="XwR-qc-rLb">
+                            <items>
+                                <tableRow identifier="PlanetRow" id="8t0-dm-pxe" customClass="PlanetRowController" customModule="Watch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="InZ-m2-ioi">
+                                        <items>
+                                            <label width="1" height="1" alignment="left" text="Label" id="wzN-64-u6X"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="nameLabel" destination="wzN-64-u6X" id="RiL-U5-bDi"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="table" destination="XwR-qc-rLb" id="SPT-kj-cQq"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="76" y="226"/>
+        </scene>
+        <!--DetailsInterfaceController-->
+        <scene sceneID="yu2-y3-i4Q">
+            <objects>
+                <controller identifier="DetailsInterfaceController" id="8y6-2L-WsD" customClass="DetailsInterfaceController" customModule="Watch_Extension">
+                    <items>
+                        <group width="1" alignment="left" layout="vertical" id="P31-Qc-9e1">
+                            <items>
+                                <label width="1" alignment="left" text="Name" numberOfLines="0" id="szf-cx-jMV">
+                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                </label>
+                                <separator alignment="left" id="Di0-eB-aL7"/>
+                                <label width="1" alignment="left" text="Description" textAlignment="left" numberOfLines="0" id="BQ4-Zy-y5u"/>
+                            </items>
+                        </group>
+                        <button width="1" alignment="left" title="Vote" id="rB5-5b-VZc">
+                            <connections>
+                                <action selector="votePressed" destination="8y6-2L-WsD" id="k1c-Uk-zMr"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="BQ4-Zy-y5u" id="6Aj-ha-YS0"/>
+                        <outlet property="nameLabel" destination="szf-cx-jMV" id="WLQ-QH-Val"/>
+                        <outlet property="voteButton" destination="rB5-5b-VZc" id="Amb-PC-hmN"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="396" y="226"/>
+        </scene>
+    </scenes>
+</document>

@@ -11,6 +11,7 @@ import UIKit
 protocol APIClient {
     func performRequest(completion: @escaping (() -> ()))
     func login(completion: @escaping (() -> ()))
+    func loadPlanets(completion: @escaping (([Planet]) -> ()))
 }
 
 class APIClientImpl: APIClient {
@@ -19,6 +20,12 @@ class APIClientImpl: APIClient {
         performRequest {
             APISession.isLoggedIn = true
             completion()
+        }
+    }
+    
+    func loadPlanets(completion: @escaping (([Planet]) -> ())) {
+        performRequest {
+            PersistentDataLoader().loadPlanets(completion: completion)
         }
     }
     

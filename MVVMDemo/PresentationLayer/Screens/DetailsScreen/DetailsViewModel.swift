@@ -6,6 +6,9 @@
 //  Copyright © 2017 Aydar Mukhametzyanov. All rights reserved.
 //
 
+import WatchConnectivity
+
+
 protocol DetailsUIDelegate: class {
     func voteSucceded()
     
@@ -17,7 +20,7 @@ struct RetryCommand {
     let run: () -> ()
 }
 
-class DetailsViewModel {
+class DetailsViewModel: NSObject {
     
     private let dataProvider: DetailsDataProvider
     private weak var uiDelegate: DetailsUIDelegate?
@@ -37,6 +40,10 @@ class DetailsViewModel {
         self.dataProvider = dataProvider
         self.uiDelegate = uiDelegate
         self.onFailed = onFailed
+        
+        super.init()
+        
+        dataProvider.setupWatchSession(with: self)
     }
     
     private func voteFailed() {
@@ -45,7 +52,7 @@ class DetailsViewModel {
         }))
     }
     
-    //MARK: - Actions
+    // MARK: - Actions
     
     func votePressed() {
         uiDelegate?.didStartLoading()
@@ -58,6 +65,26 @@ class DetailsViewModel {
                 self?.voteFailed()
             }
         }
+    }
+    
+}
+
+extension DetailsViewModel: WCSessionDelegate {
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("phone: sessionDidBecomeInactive")
+    }
+
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("phone: sessionDidDeactivate")
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("phone: activation completed: \(error)")
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        print("phone: didReceiveApplicationContext - \(applicationContext)")
     }
     
 }
